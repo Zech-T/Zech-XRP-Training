@@ -6,9 +6,16 @@ import frc.robot.subsystems.XRPDrivetrain;
 
 public class TurnForTimeCommand extends Command {
     //TODO this should do the same as the DriveForTimeCommand, but turn instead
+    private final XRPDrivetrain m_drive;
+    double time, turnSpeed;
+    private Timer m_timer;
     public TurnForTimeCommand(XRPDrivetrain drive, int time, int power) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
+        this.drive = drive;
+        this.time = time;
+        this.turnSpeed = turnSpeed;
+        m_timer = new Timer();
         addRequirements();
     }
 

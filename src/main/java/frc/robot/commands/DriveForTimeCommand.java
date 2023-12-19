@@ -7,10 +7,18 @@ import frc.robot.subsystems.XRPDrivetrain;
 public class DriveForTimeCommand extends Command {
    //TODO create a command that uses a timer to drive the robot for a given time at a
    // given speed
+    XRPDrivetrain m_drive
+    double time, power;
+    Timer m_timer;
     public DriveForTimeCommand(XRPDrivetrain drive, int time, int power) {
         // each subsystem used by the command must be passed into the
         // addRequirements() method (which takes a vararg of Subsystem)
-        addRequirements();
+        m_timer = new Timer();
+        m_drive = drive;
+        this.speed = speed;
+        this.time = time;
+
+        addRequirements(m_drive);
     }
 
     /**
@@ -18,7 +26,8 @@ public class DriveForTimeCommand extends Command {
      */
     @Override
     public void initialize() {
-
+        m_timer.reset();
+        m_timer.start();
     }
 
     /**
@@ -27,7 +36,7 @@ public class DriveForTimeCommand extends Command {
      */
     @Override
     public void execute() {
-
+        m_drive.arcadeDrive(speed, 0.0);
     }
 
     /**
@@ -47,7 +56,7 @@ public class DriveForTimeCommand extends Command {
     @Override
     public boolean isFinished() {
         // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return m_timer.hasElapsed(time);
     }
 
     /**
@@ -60,6 +69,6 @@ public class DriveForTimeCommand extends Command {
      */
     @Override
     public void end(boolean interrupted) {
-
+        m_drive.stop();
     }
 }
